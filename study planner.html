@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Planejador de Estudos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F5F5F5;
+            margin: 0;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FFC0CB;
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            padding: 10px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        input[type="text"], input[type="number"], select {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            border: none;
+            background-color: #FFC0CB;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #FF7F9F;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            background-color: transparent;
+            border-radius: 10px;
+        }
+
+        table, th, td {
+            border: none;
+            padding: 10px;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #F5F5F5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Planejador de Estudos</div>
+
+        <form id="subjectForm">
+            <input type="text" id="subjectName" placeholder="Nome da materia">
+            <input type="number" id="priority" placeholder="Prioridade (1-10)">
+            <input type="number" id="studyDays" placeholder="Dias de estudo por semana">
+            <button type="button" onclick="addSubject()">Adicionar Materia</button>
+        </form>
+
+        <table id="subjectTable">
+            <thead>
+                <tr>
+                    <th>Materia</th>
+                    <th>Horas por dia</th>
+                    <th>Dias de estudo</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function addSubject() {
+            var subjectName = document.getElementById("subjectName").value;
+            var priority = document.getElementById("priority").value;
+            var studyDays = document.getElementById("studyDays").value;
+
+            var table = document.getElementById("subjectTable").getElementsByTagName('tbody')[0];
+            var row = table.insertRow();
+            var subjectCell = row.insertCell(0);
+            var hoursCell = row.insertCell(1);
+            var daysCell = row.insertCell(2);
+
+            subjectCell.textContent = subjectName;
+            hoursCell.textContent = calculateStudyHours(priority);
+            daysCell.textContent = calculateStudyDays(studyDays);
+
+            // Limpar campos de entrada
+            document.getElementById("subjectName").value = "";
+            document.getElementById("priority").value = "";
+            document.getElementById("studyDays").value = "";
+        }
+
+        function calculateStudyHours(priority) {
+            var minHours = 1;
+            var maxHours = 2;
+            var hours = minHours + ((maxHours - minHours) / 9) * (priority - 1);
+            return hours.toFixed(1);
+        }
+
+        function calculateStudyDays(studyDays) {
+            var days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+            var selectedDays = days.slice(0, studyDays);
+            return selectedDays.join(", ");
+        }
+    </script>
+</body>
+</html>
